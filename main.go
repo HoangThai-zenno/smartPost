@@ -8,6 +8,7 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 	"net/http"
 	"smartPost/controllers"
+	"smartPost/models"
 	"smartPost/repositories"
 	"smartPost/routes"
 	"smartPost/services"
@@ -27,6 +28,7 @@ func main() {
 		return
 	}
 	defer db.Close()
+	db.AutoMigrate(models.User{}, models.Group{})
 	userRepository := repositories.NewUserRepository(db)
 	userService := services.NewUserService(userRepository)
 	userController := controllers.NewUserController(userService)
